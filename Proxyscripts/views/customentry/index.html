@@ -1,0 +1,20 @@
+{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
+{{extend 'layout.html'}}
+
+<h1>{{=T("Edit custom-entries")}}</h1>   
+<a href="{{=URL("index")}}">{{=T("back")}}</a>
+<br/>
+<br/>
+
+<a href="{{=URL("addCustomEntry")}}">{{=T("Add custom entry")}}</a>
+<br/>
+<br/>
+{{=form}}
+
+<script type="text/javascript"  charset="utf-8">
+ $(document).ready(function() {
+    $('#datatable').DataTable({
+        "iDisplayLength": 50,
+        });
+ } );
+</script>

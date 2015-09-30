@@ -1,0 +1,17 @@
+{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
+{{extend 'layout.html'}}
+
+<h1>{{=T('Edit customers for destination')}} <span class="label label-default">{{=destination}}</span></h1>
+
+{{if request.env.http_referer:}}
+<a href="{{=request.env.http_referer}}">{{=T("back")}}</a>
+{{else:}}
+<a href="{{=URL("multiChangesDestinations")}}">{{=T("back")}}</a>
+{{pass}}
+
+<br/>
+<br/>
+
+{{=form}}
+
+<br/>

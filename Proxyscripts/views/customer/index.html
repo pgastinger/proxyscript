@@ -1,0 +1,26 @@
+{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
+{{extend 'layout.html'}}
+
+<h1>{{=T("Edit customers")}}</h1>   
+{{if request.env.http_referer:}}
+<a href="{{=request.env.http_referer}}">{{=T("back")}}</a>
+{{else:}}
+<a href="{{=URL("default","index")}}">{{=T("back")}}</a>
+{{pass}}
+<br/>
+<br/>
+
+<a href="{{=URL("addCustomer")}}">{{=T("Add customer")}}</a>
+<br/>
+<br/>
+{{=form}}
+
+<br/>
+
+<script type="text/javascript"  charset="utf-8">
+ $(document).ready(function() {
+    $('#datatable').DataTable({
+        "iDisplayLength": 50,
+        });
+ } );
+</script>

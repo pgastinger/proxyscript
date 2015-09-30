@@ -1,0 +1,21 @@
+{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
+{{extend 'layout.html'}}
+
+<h1>{{=T("Quickstart")}}</h1>   
+
+<br/>
+{{if request.env.http_referer:}}
+<a href="{{=request.env.http_referer}}">{{=T("back")}}</a>
+{{else:}}
+<a href="{{=URL("index")}}">{{=T("back")}}</a>
+{{pass}}
+
+<br/>
+<br/>
+
+
+<h3>{{=T("no content yet")}}</h3>
+
+
+
+

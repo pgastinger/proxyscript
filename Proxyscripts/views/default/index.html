@@ -1,0 +1,57 @@
+{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
+{{extend 'layout.html'}}
+
+<h1>{{=T("Proxy Script Generator")}}</h1>   
+
+<span class="label label-info">Diese Seite wurde zuletzt aktualisiert am: <b>2015-09-30 15:06:23.015334</b></span>
+<br/>
+<br/>
+
+<ul>
+    <li>{{=T("Edit")}}</li>
+<ul>
+    <li><a href="{{=URL("customer","index")}}">{{=T("Customers")}}</a></li>
+    <li><a href="{{=URL("destination","index")}}">{{=T("Destinations")}}</a></li>
+    <li><a href="{{=URL("proxybypassentry","index")}}">{{=T("Entries")}}</a></li>
+    <li><a href="{{=URL("customentry","index")}}">{{=T("Custom-entries")}}</a></li>
+</ul>
+<li>{{=T("Multi-changes")}}</li>
+<ul>
+    <li><a href="{{=URL("multiChangesDestinations")}}">{{=T("Add specific destination for multiple customers")}}</a></li>
+    <li><a href="{{=URL("multiChangesCustomers")}}">{{=T("Add specific customer for multiple destinations")}}</a></li>
+</ul>
+    <li><a href="{{=URL("default","pacTester")}}">{{=T("Test PAC-File")}}</a></li>
+    <li>{{=T("Documentation")}}</li>
+    <ul>
+        <li><a href="{{=URL("documentation","howto")}}">{{=T("Quick Start")}}</a></li>
+        <li><a href="{{=URL("documentation","database")}}">{{=T("Database schema")}}</a></li>
+    </ul>
+</ul>
+
+<br/>
+<table class="table table-striped table-bordered" id="datatable">
+    <thead>
+        <tr><th>{{=T("Name")}}</th><th>{{=T("Proxy")}}</th><th>{{=T("Show")}}</th><th>{{=T("PAC-file (on server)")}}</th><th>&nbsp;</th></tr>
+    </thead>
+    <tbody>
+{{for item in db(db.customers.isActive==True).select():}}
+<tr>
+    <td>{{=item.customer}}</td>
+    <td>{{=item.proxyurl}}:{{=item.proxyport}}</td>
+    <td><a href="{{=URL("showFile",args=item.id)}}">{{=item.pacfile}}</a></td>
+    <td><a href="http://proxyscripts.acme.co/{{=item.pacfile}}">{{=item.pacfile}}</a></td>
+    <td><a href="http://proxyscripts.acme.co/get_pac_file.php?pacfile={{=item.pacfile}}"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span>&nbsp;{{=T("copy to server")}}</a></td>
+</tr>
+
+
+{{pass}}
+    </tbody>
+</table>
+
+<script type="text/javascript"  charset="utf-8">
+ $(document).ready(function() {
+    $('#datatable').DataTable({
+        "iDisplayLength": 50,
+        });
+ } );
+</script>
