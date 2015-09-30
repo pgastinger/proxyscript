@@ -1,13 +1,14 @@
 # proxyscript
 
-This web2py-interface is a rather simple gui for creating customer specific proxy pac files. The interface runs on any recent Linux-distribution (Python 2.7 preferred) and is basically just a generator. 
+This web2py-interface is a rather simple gui for creating customer specific proxy pac files. The interface runs on any recent Linux-distribution (Python 2.7 preferred) and is basically just a generator, which runs on my raspberry pi. 
 After generating the proxy script, it can be copied to a redundant LAMP-webserver where it will be fetched by the actual proxy clients. 
 Following components are used for that:
 * web2py (http://www.web2py.com/)
 * IPy (https://pypi.python.org/pypi/IPy/, included as module)
-* subprocess (https://www.python.org/dev/peps/pep-0324/, included as module)
 * Datatables-Plugin for jquery (https://www.datatables.net/, included)
-* pacparser (https://github.com/pacparser/pacparser, included as module)
+* pacparser (https://github.com/pacparser/pacparser, must be manually compiled and installed)
+
+By default, a sqlite-database is used (which can easily changed to either MySQL, ...). Authentication is local only, but this can also easily changed to a LDAP authentication against a Microsoft Active Directory. 
 
 ## Demo
 A demo with sample data is running at:

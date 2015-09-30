@@ -2,7 +2,6 @@
 
 import re
 import IPy
-import subprocess
 import datetime
 
 proxytemplate="""<?php header("Content-Type: application/x-ns-proxy-autoconfig");?>
@@ -71,22 +70,6 @@ entrytemplate_ip="""
         }
 """
 
-# check_output function does not exist before python 2.7, we have to add it manually
-if "check_output" not in dir( subprocess ):
-    def f(*popenargs, **kwargs):
-        if 'stdout' in kwargs:
-            raise ValueError('stdout argument not allowed, it will be overridden.')
-        process = subprocess.Popen(stdout=subprocess.PIPE, *popenargs, **kwargs)
-        output, unused_err = process.communicate()
-        retcode = process.poll()
-        if retcode:
-            cmd = kwargs.get("args")
-            if cmd is None:
-                cmd = popenargs[0]
-            raise subprocess.CalledProcessError(retcode, cmd)
-        return output
-    subprocess.check_output = f
-
 def index():
     """
     show all active customers
@@ -126,6 +109,12 @@ def pacTester():
     testing pacfile
     needs  https://github.com/manugarg/pactester
     """
+    try:
+        import pacparser
+    except ImportError:
+        session.flash = T("pacparser is not installed")
+        redirect(URL("default","index"))
+
     form = FORM(_role="form")
     div0 = DIV(_class="form-group")
     div0.append(LABEL(T("PAC-File")))
@@ -144,23 +133,22 @@ def pacTester():
     cust = ""
     url = ""
     if form.accepts(request,session,keepvalues=True):
-        import tempfile
-        import os
         url = form.vars.url
         customer = db((db.customers.isActive==True)&(db.customers.id==form.vars.pacfileid)).select().first()
         if customer:
+            import tempfile
+            import os
             cust = customer.customer
             f = tempfile.NamedTemporaryFile(delete=False)
             fname = f.name
             f.write(generate(form.vars.pacfileid))
             f.close()
-            cmdstring = "/usr/bin/pactester -p %s -u %s 2>&1"%(fname,form.vars.url)
             try:
-                ret = subprocess.check_output(cmdstring,shell=True)
+                ret = pacparser.just_find_proxy(fname,form.vars.url)
                 logger.info("PAC-File %s successfully tested for url %s by %s"%(fname,form.vars.url,auth.user.username))
             except:
                 response.flash = T('Problem testing pacfile')
-                logger.debug("Testing pacfile failed with command %s"%(cmdstring))
+                logger.debug("Testing pacfile failed")
             else:
                 response.flash = T('PAC-File %(pacfile)s successfully tested with url %(url)s',dict(pacfile=customer.pacfile,url=form.vars.url))
                 os.remove(fname)
