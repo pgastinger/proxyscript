@@ -14,8 +14,8 @@ response.meta.generator = 'Web2py Web Framework'
 response.menu = [
     (T('Home'), False, URL('default', 'index'), []),
     (T('Edit'), False, URL() , [
-        (T('Customers'), False, URL('customer', 'index'), []),
         (T('Destinations'), False, URL('destination', 'index'), []),
+        (T('Customers'), False, URL('customer', 'index'), []),
         (T('Entries'), False,URL('proxybypassentry', 'index'), []),
         (T('Custom-entries'), False,URL('customentry', 'index'), []),
     ]),
