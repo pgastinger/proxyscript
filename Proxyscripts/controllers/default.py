@@ -80,7 +80,7 @@ def generate(id):
     """
     generate proxy scripts file (aka pac file)
     """
-    IP_CIDR_RE = re.compile(r"(?<!\d\.)(?<!\d)(?:\d{1,3}\.){3}\d{1,3}/\d{1,2}(?!\d|(?:\.\d))")
+    IP_CIDR_RE = re.compile(r"(?<!\d\.)(?<!\d)(?:\d{1,3}\.){3}\d{1,3}/?\d{0,2}(?!\d|(?:\.\d))")
 
     customer = db((db.customers.isActive==True) & (db.customers.id==id)).select().first()
     if customer:
