@@ -103,12 +103,12 @@ def generate(id):
                 content += entrytemplate_domain % (entry.proxybypassentries.addedat.strftime("%d%b%Y"),
                                                  entry.auth_user.username, entry.proxybypassentries.info,
                                                  entry.destinations.destination)
-        custom_entries = db((db.customentries.customer == id) & (db.customentries.isActive == True)).select()
+        custom_entries = db((db.customentries.customer == id) & (db.customentries.isActive == True) & (db.customentries.addedby == db.auth_user.id)).select()
         for item in custom_entries:
             content += "\n"
-            content += "\t//%s/%s %s\n" % (entry.proxybypassentries.addedat.strftime("%d%b%Y"),
-                                         entry.auth_user.username, entry.proxybypassentries.info)
-            content += item.entry
+            content += "\t//%s/%s %s\n" % (item.customentries.addedat.strftime("%d%b%Y"), 
+                                         item.auth_user.username, item.customentries.info)
+            content += item.customentries.entry
             content += "\n"
         return proxytemplate % (customer.proxyurl, customer.proxyport, content)
     else:
